@@ -12,4 +12,16 @@
     <PackageReference Include="SFML.Net" Version="2.6.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="assets\maze.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\pacman.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\pixel-font.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -14,8 +14,8 @@ namespace Pacman
                        new VideoMode(828, 900), "Pacman")) 
             {
                 window.Closed += (o, e) => window.Close();
-                
-                // TODO: Initialize
+
+                Scene scene = new Scene();
 
                 Clock clock = new Clock();
                 
@@ -25,12 +25,12 @@ namespace Pacman
                     
                     float deltaTime = clock.Restart().AsSeconds();
                     deltaTime = MathF.Min(deltaTime, 0.01f);
-                    
-                    // TODO: Updates
+
+                    scene.UpdateAll(deltaTime);
 
                     window.Clear(new Color(223, 246, 245));
-                    
-                    // TODO: Drawing
+
+                    scene.RenderAll(window);
 
                     window.Display();
                 }
