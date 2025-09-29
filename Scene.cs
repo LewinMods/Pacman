@@ -14,8 +14,9 @@ public class Scene
         entities = new List<Entity>();
         Loader = new SceneLoader();
         Assets = new AssetManager();
-
-        Spawn(new PacMan() { Position = new Vector2f(100, 100) });
+        
+        Loader.Load("maze");
+        Loader.HandleSceneLoad(this);
     }
 
     public void Spawn(Entity entity)
@@ -28,7 +29,7 @@ public class Scene
     {
         for (int i = entities.Count - 1; i >= 0; i--)
         {
-            entities[i].Update(deltaTime);
+            entities[i].Update(this, deltaTime);
         }
     }
 
@@ -53,5 +54,30 @@ public class Scene
         
         found = default(T);
         return false;
+    }
+
+    public void Clear()
+    {
+        for (int i = entities.Count - 1; i >= 0; i--)
+        {
+            Entity entity = entities[i];
+            entities.RemoveAt(i);
+            entity.Destroy(this);
+        }
+    }
+
+    public IEnumerable<Entity> FindIntersects(FloatRect bounds)
+    {
+        int lastEntity = entities.Count - 1;
+
+        for (int i = lastEntity; i >= 0; i--)
+        {
+            Entity entity = entities[i];
+            if (entity.Dead) continue;
+            if (entity.Bounds.Intersects(bounds))
+            {
+                yield return entity;
+            }
+        }
     }
 }
