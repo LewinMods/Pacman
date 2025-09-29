@@ -11,9 +11,16 @@ namespace Pacman
         static void Main(string[] args) 
         {
             using (var window = new RenderWindow(
-                       new VideoMode(828, 900), "Pacman")) 
+                       new VideoMode(828, 828), "Pacman")) 
             {
                 window.Closed += (o, e) => window.Close();
+                
+                window.SetFramerateLimit(60);
+                
+                window.SetView(new View(
+                    new Vector2f(207, 207),
+                    new Vector2f(450, 450)
+                ));
 
                 Scene scene = new Scene();
 

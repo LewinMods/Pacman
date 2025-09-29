@@ -25,18 +25,31 @@ public abstract class Entity
 
     public virtual bool Solid => false;
 
-    public void Create(Scene scene)
+    public virtual void Create(Scene scene)
     {
         sprite.Texture = scene.Assets.LoadTexture(textureName);
     }
 
-    public virtual void Update(float deltaTime)
+    public virtual void Update(Scene scene, float deltaTime)
     {
-        
+        foreach (Entity found in scene.FindIntersects(Bounds))
+        {
+            CollideWith(scene, found);
+        }
     }
 
     public void Render(RenderTarget target)
     {
         target.Draw(sprite);
+    }
+
+    protected virtual void CollideWith(Scene s, Entity other)
+    {
+        
+    }
+
+    public virtual void Destroy(Scene scene)
+    {
+        
     }
 }
