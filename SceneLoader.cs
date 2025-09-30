@@ -13,7 +13,9 @@ public class SceneLoader
         loaders = new Dictionary<char, Func<Entity>>()
         {
             {'#', () => new Wall()},
-            {'.', () => new Coin()}
+            {'.', () => new Coin()},
+            {'g', () => new Ghost()},
+            {'p', () => new PacMan()}
         };
     }
 
@@ -36,23 +38,21 @@ public class SceneLoader
         scene.Clear();
         
         string file =  $"assets/{nextScene}.txt";
-        
-        int lineNumber = 0;
 
-        foreach (var line in File.ReadLines(file, Encoding.UTF8))
+        List<string> line = File.ReadLines(file, Encoding.UTF8).ToList();
+
+        for (int y = 0; y < line.Count; y++)
         {
-            lineNumber++;
-            
-            if (line.Length == 0) continue;
+            if (line.Count == 0) continue;
 
-            char[] lineArray = line.ToCharArray();
+            char[] lineArray = line[y].ToCharArray();
 
-            for (int i = 0; i <= lineArray.Length - 1; i++)
+            for (int x = 0; x <= lineArray.Length - 1; x++)
             {
-                if (Create(lineArray[i], out Entity created))
+                if (Create(lineArray[x], out Entity created))
                 {
                     scene.Spawn(created);
-                    created.Position = new Vector2f((i - 1) * 18, lineNumber * 18);
+                    created.Position = new Vector2f((x - 1) * 18, y * 18);
                 }
             }
         }

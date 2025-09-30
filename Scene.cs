@@ -16,17 +16,20 @@ public class Scene
         Assets = new AssetManager();
         
         Loader.Load("maze");
-        Loader.HandleSceneLoad(this);
     }
 
     public void Spawn(Entity entity)
     {
         entities.Add(entity);
         entity.Create(this);
+        
+        entities = entities.OrderBy(e => e.ZIndex).ToList();
     }
 
     public void UpdateAll(float deltaTime)
     {
+        Loader.HandleSceneLoad(this);
+        
         for (int i = entities.Count - 1; i >= 0; i--)
         {
             entities[i].Update(this, deltaTime);
