@@ -11,7 +11,7 @@ namespace Pacman
         static void Main(string[] args) 
         {
             using (var window = new RenderWindow(
-                       new VideoMode(828, 828), "Pacman")) 
+                       new VideoMode(828, 900), "Pacman")) 
             {
                 window.Closed += (o, e) => window.Close();
                 
@@ -19,7 +19,7 @@ namespace Pacman
                 
                 window.SetView(new View(
                     new Vector2f(207, 207),
-                    new Vector2f(450, 450)
+                    new Vector2f(414, 414)
                 ));
 
                 Scene scene = new Scene();
@@ -35,7 +35,7 @@ namespace Pacman
 
                     scene.UpdateAll(deltaTime);
 
-                    window.Clear(new Color(223, 246, 245));
+                    window.Clear(new Color(11, 75, 255));
 
                     scene.RenderAll(window);
 

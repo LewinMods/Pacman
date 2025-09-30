@@ -8,6 +8,7 @@ public abstract class Entity
     private string textureName;
     protected Sprite sprite;
     public bool Dead = false;
+    public int ZIndex = 0;
 
     protected Entity(string textureName)
     {
