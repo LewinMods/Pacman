@@ -1,19 +1,26 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace Pacman;
 
-public class Scene
+public sealed class Scene
 {
     private List<Entity> entities;
+    
     public readonly SceneLoader Loader;
     public readonly AssetManager Assets;
+    public readonly EventManager Events;
+    public readonly SaveFile saveFile;
 
     public Scene()
     {
         entities = new List<Entity>();
+        
         Loader = new SceneLoader();
         Assets = new AssetManager();
+        Events = new EventManager();
+        saveFile = new SaveFile("SaveFile");
         
         Loader.Load("maze");
     }
@@ -33,6 +40,18 @@ public class Scene
         for (int i = entities.Count - 1; i >= 0; i--)
         {
             entities[i].Update(this, deltaTime);
+        }
+
+        Events.Update(this, deltaTime);
+        
+        for (int i = entities.Count - 1; i >= 0; i--)
+        {
+            if (entities[i].Dead)
+            {
+                Entity entity = entities[i];
+                entities.RemoveAt(i);
+                entity.Destroy(this);
+            }
         }
     }
 
@@ -64,8 +83,12 @@ public class Scene
         for (int i = entities.Count - 1; i >= 0; i--)
         {
             Entity entity = entities[i];
-            entities.RemoveAt(i);
-            entity.Destroy(this);
+
+            if (!entity.DontDestroyOnLoad)
+            {
+                entities.RemoveAt(i);
+                entity.Destroy(this);
+            }
         }
     }
 

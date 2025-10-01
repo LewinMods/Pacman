@@ -18,8 +18,8 @@ namespace Pacman
                 window.SetFramerateLimit(60);
                 
                 window.SetView(new View(
-                    new Vector2f(207, 207),
-                    new Vector2f(414, 414)
+                    new Vector2f(207, 225),
+                    new Vector2f(414, 450)
                 ));
 
                 Scene scene = new Scene();

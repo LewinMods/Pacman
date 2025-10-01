@@ -6,16 +6,46 @@ namespace Pacman;
 
 public sealed class PacMan : Actor
 {
+    private List<List<IntRect>> frameList;
+
+    private Animation animation;
+    
     public PacMan(): base("pacman")
     {
-        ZIndex = 1;
+        frameList = new List<List<IntRect>>()
+        {
+            new List<IntRect>()
+            {
+                new IntRect(0,0,18,18),
+                new IntRect(18,0,18,18),
+                new IntRect(36,54,18,18),
+            },
+            new List<IntRect>()
+            {
+                new IntRect(0,18,18,18),
+                new IntRect(18,18,18,18),
+                new IntRect(36,54,18,18),
+            },
+            new List<IntRect>()
+            {
+                new IntRect(0,36,18,18),
+                new IntRect(18,36,18,18),
+                new IntRect(36,54,18,18),
+            },
+            new List<IntRect>()
+            {
+                new IntRect(0,54,18,18),
+                new IntRect(18,54,18,18),
+                new IntRect(36,54,18,18),
+            }
+        };
     }
 
     public override void Create(Scene scene)
     {
-        speed = 100.0f;
         base.Create(scene);
-        sprite.TextureRect = new IntRect(0, 0, 18, 18);
+        
+        animation = new Animation(frameList[0]);
     }
 
     protected override int PickDirection(Scene scene)
@@ -42,10 +72,22 @@ public sealed class PacMan : Actor
         if ((dir + 2) % 4 == direction) return direction;
         
         moving = dir >= 0;
-        
-        if (IsFree(scene, dir)) return dir;
+
+        if (IsFree(scene, dir))
+        {
+            animation.ChangeFrames(frameList[dir]);
+            
+            return dir;
+        }
 
         if (!IsFree(scene, direction)) moving = false;
         return direction;
+    }
+
+    public override void Update(Scene scene, float deltaTime)
+    {
+        sprite.TextureRect = moving ? animation.UpdateAnimation() : frameList[0][2];
+        
+        base.Update(scene, deltaTime);
     }
 }

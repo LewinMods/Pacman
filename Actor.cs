@@ -6,28 +6,39 @@ namespace Pacman;
 public abstract class Actor : Entity
 {
     private bool wasAligned;
-    protected float speed;
+    public float speed = 100;
     protected int direction;
     protected bool moving;
-    protected Vector2f originalPosition;
-    protected float originalSpeed;
+    private Vector2f originalPosition;
+
+    private Clock clock;
     
     protected Actor(string textureName) : base(textureName)
     {
-        
+        ZIndex = 1;
+        clock = new Clock();
     }
 
     protected void Reset()
     {
+        clock.Restart();
+        
+        speed = 0;
+        
+        moving = false;
         wasAligned = false;
-        originalSpeed = speed;
-        originalPosition = Position;
+        Position = originalPosition;
+        direction = -1;
     }
 
     public override void Create(Scene scene)
     {
+        originalPosition = Position;
+        
         base.Create(scene);
         Reset();
+        
+        scene.Events.LoseHealth += OnLoseHealth;
     }
     
     protected bool IsAligned =>
@@ -57,6 +68,15 @@ public abstract class Actor : Entity
 
     public override void Update(Scene scene, float deltaTime)
     {
+        if (speed <= 0)
+        {
+            if (clock.ElapsedTime.AsSeconds() >= 1)
+            {
+                speed = 100;
+                moving = true;
+            }
+        }
+        
         base.Update(scene, deltaTime);
 
         if (IsAligned)
@@ -87,5 +107,16 @@ public abstract class Actor : Entity
             > 414 => new Vector2f(-18, Position.Y),
             _ => Position
         };
+    }
+    
+    public void OnLoseHealth(Scene scene, int health)
+    {
+        Reset();
+    }
+    
+    public override void Destroy(Scene scene)
+    {
+        base.Destroy(scene);
+        scene.Events.LoseHealth -= OnLoseHealth;
     }
 }
