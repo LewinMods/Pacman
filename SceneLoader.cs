@@ -38,7 +38,7 @@ public class SceneLoader
         
         scene.Clear();
         
-        string file =  $"assets/{nextScene}.txt";
+        string file = $"assets/{nextScene}.txt";
 
         List<string> line = File.ReadLines(file, Encoding.UTF8).ToList();
 
@@ -52,7 +52,7 @@ public class SceneLoader
             {
                 if (Create(lineArray[x], out Entity created))
                 {
-                    created.Position = new Vector2f((x - 1) * 18, y * 18);
+                    created.Position = new Vector2f((x) * 18, y * 18);
                     scene.Spawn(created);
                 }
             }

@@ -87,7 +87,7 @@ public sealed class Ghost : Actor
 
         if (speed != 0)
         {
-            speed = frozenTimer > 0 ? 60 : 100;
+            speed = frozenTimer > 0 ? 40 : 60;
         }
         
         base.Update(scene, deltaTime);

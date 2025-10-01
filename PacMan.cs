@@ -69,8 +69,6 @@ public sealed class PacMan : Actor
             dir = 3;
         }
         
-        if ((dir + 2) % 4 == direction) return direction;
-        
         moving = dir >= 0;
 
         if (IsFree(scene, dir))

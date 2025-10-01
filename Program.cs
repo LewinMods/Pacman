@@ -18,8 +18,7 @@ namespace Pacman
                 window.SetFramerateLimit(60);
                 
                 window.SetView(new View(
-                    new Vector2f(207, 225),
-                    new Vector2f(414, 450)
+                    new FloatRect(18,0,414,450)
                 ));
 
                 Scene scene = new Scene();
@@ -31,7 +30,7 @@ namespace Pacman
                     window.DispatchEvents();
                     
                     float deltaTime = clock.Restart().AsSeconds();
-                    deltaTime = MathF.Min(deltaTime, 0.01f);
+                    deltaTime = MathF.Min(deltaTime, 0.1f);
 
                     scene.UpdateAll(deltaTime);
 
