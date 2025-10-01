@@ -6,9 +6,11 @@ namespace Pacman;
 public abstract class Entity
 {
     private string textureName;
-    protected Sprite sprite;
+    public Sprite sprite;
     public bool Dead = false;
     public int ZIndex = 0;
+
+    public bool DontDestroyOnLoad;
 
     protected Entity(string textureName)
     {
@@ -22,7 +24,7 @@ public abstract class Entity
         set => sprite.Position = value;
     }
 
-    public FloatRect Bounds => sprite.GetGlobalBounds();
+    public virtual FloatRect Bounds => sprite.GetGlobalBounds();
 
     public virtual bool Solid => false;
 
@@ -39,7 +41,7 @@ public abstract class Entity
         }
     }
 
-    public void Render(RenderTarget target)
+    public virtual void Render(RenderTarget target)
     {
         target.Draw(sprite);
     }

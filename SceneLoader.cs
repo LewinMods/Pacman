@@ -15,7 +15,8 @@ public class SceneLoader
             {'#', () => new Wall()},
             {'.', () => new Coin()},
             {'g', () => new Ghost()},
-            {'p', () => new PacMan()}
+            {'p', () => new PacMan()},
+            {'c', () => new Candy()}
         };
     }
 
@@ -51,14 +52,19 @@ public class SceneLoader
             {
                 if (Create(lineArray[x], out Entity created))
                 {
-                    scene.Spawn(created);
                     created.Position = new Vector2f((x - 1) * 18, y * 18);
+                    scene.Spawn(created);
                 }
             }
         }
         
         currentScene = nextScene;
         nextScene = "";
+
+        if (!scene.FindByType<GUI>(out _))
+        {
+            scene.Spawn(new GUI());
+        }
     }
 
     public void Load(string scene) => nextScene = scene;

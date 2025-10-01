@@ -33,8 +33,8 @@ public class AssetManager
         {
             return foundFont;
         }
-        
-        Font font = new Font($"{AssetPath}/{name}.png");
+     
+        Font font = new Font($"{AssetPath}/{name}.ttf");
         fonts[name] = font;
         return font;
     }
