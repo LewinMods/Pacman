@@ -21,6 +21,8 @@ public class GUI : Entity
         
         currentHealth = maxHealth;
         currentScore = 0;
+
+        DontDestroyOnLoad = true;
     }
 
     public override void Create(Scene scene)
@@ -47,7 +49,7 @@ public class GUI : Entity
 
     public override void Render(RenderTarget target)
     {
-        sprite.Position = new Vector2f(18, 396);
+        sprite.Position = new Vector2f(36, 396);
         
         for (int i = 0; i < maxHealth; i++)
         {
@@ -61,10 +63,10 @@ public class GUI : Entity
         }
 
         scoreText.DisplayedString = $"Score: {currentScore}";
-        scoreText.Position = new Vector2f(390 - scoreText.GetGlobalBounds().Width, 396);
+        scoreText.Position = new Vector2f(408 - scoreText.GetGlobalBounds().Width, 396);
         
         highScoreText.DisplayedString = $"HighScore: {highScore}";
-        highScoreText.Position = new Vector2f(390 - highScoreText.GetGlobalBounds().Width, 416);
+        highScoreText.Position = new Vector2f(408 - highScoreText.GetGlobalBounds().Width, 416);
         
         target.Draw(scoreText);
         target.Draw(highScoreText);
@@ -76,15 +78,17 @@ public class GUI : Entity
 
         if (currentHealth <= 0)
         {
-            DontDestroyOnLoad = false;
-
             if (currentScore > highScore)
             {
                 highScore = currentScore;
                 scene.saveFile.Save(highScore);
             }
+
+            currentScore = 0;
             
             scene.Loader.Reload();
+            
+            currentHealth  = maxHealth;
         }
     }
 
@@ -94,8 +98,6 @@ public class GUI : Entity
 
         if (!scene.FindByType<Coin>(out _))
         {
-            DontDestroyOnLoad = true;
-            
             scene.Loader.Reload();
         }
     }

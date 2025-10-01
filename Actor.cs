@@ -6,7 +6,7 @@ namespace Pacman;
 public abstract class Actor : Entity
 {
     private bool wasAligned;
-    public float speed = 100;
+    public float speed = 60;
     protected int direction;
     protected bool moving;
     private Vector2f originalPosition;
@@ -42,8 +42,8 @@ public abstract class Actor : Entity
     }
     
     protected bool IsAligned =>
-    (short) MathF.Floor(Position.X) % 18 == 0 &&
-    (short) MathF.Floor(Position.Y) % 18 == 0;
+    (int) MathF.Floor(Position.X) % 18 == 0 &&
+    (int) MathF.Floor(Position.Y) % 18 == 0;
 
     protected bool IsFree(Scene scene, int dir)
     {
@@ -72,7 +72,7 @@ public abstract class Actor : Entity
         {
             if (clock.ElapsedTime.AsSeconds() >= 1)
             {
-                speed = 100;
+                speed = 60;
                 moving = true;
             }
         }
@@ -99,12 +99,12 @@ public abstract class Actor : Entity
 
         if (!moving) return;
         
-        Position += ToVector(direction) * speed * deltaTime;
+        Position += ToVector(direction) * (speed * deltaTime);
         
         Position = MathF.Floor(Position.X) switch
         {
-            < -18 => new Vector2f(414, Position.Y),
-            > 414 => new Vector2f(-18, Position.Y),
+            < 0 => new Vector2f(414, Position.Y),
+            > 414 => new Vector2f(0, Position.Y),
             _ => Position
         };
     }
